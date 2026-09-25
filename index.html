@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valeria Vargas | Comunicación Digital & Diseño</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary:#8B5CF6; --primary-light:#A78BFA; --primary-dark:#7C3AED;
+            --accent:#EC4899; --accent-light:#F472B6;
+            --bg-main:#FFFFFF; --bg-soft:#FAF5FF; --bg-card:#FFFFFF;
+            --text-main:#1E1B4B; --text-secondary:#6B7280; --text-muted:#9CA3AF;
+            --border:rgba(139,92,246,0.12);
+            --gradient:linear-gradient(135deg,#8B5CF6,#EC4899);
+            --gradient-subtle:linear-gradient(135deg,#F3E8FF,#FCE7F3);
+            --shadow-sm:0 2px 10px rgba(139,92,246,0.08);
+            --shadow:0 8px 30px rgba(139,92,246,0.12);
+            --shadow-lg:0 20px 60px rgba(139,92,246,0.18);
+            --shadow-hover:0 12px 40px rgba(236,72,153,0.18);
+            --radius:16px; --transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--primary-light) var(--bg-soft)}
+        body{font-family:'Inter',sans-serif;background:var(--bg-main);color:var(--text-main);overflow-x:hidden}
+        ::-webkit-scrollbar{width:8px}
+        ::-webkit-scrollbar-track{background:var(--bg-soft)}
+        ::-webkit-scrollbar-thumb{background:var(--primary-light);border-radius:10px}
+        a{text-decoration:none;color:inherit} ul{list-style:none} img{max-width:100%}
+        .container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+        .bg-effects{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+        .bg-orb{position:absolute;border-radius:50%;filter:blur(150px);opacity:0.15;animation:float 25s infinite ease-in-out}
+        .bg-orb:nth-child(1){width:600px;height:600px;background:var(--primary);top:-250px;right:-150px}
+        .bg-orb:nth-child(2){width:500px;height:500px;background:var(--accent);bottom:-200px;left:-150px;animation-delay:-12s}
+        @keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-60px) scale(1.05)}66%{transform:translate(-30px,40px) scale(0.95)}}
+
+        .navbar{position:fixed;top:0;left:0;width:100%;z-index:1000;padding:18px 0;transition:var(--transition)}
+        .navbar.scrolled{background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);padding:12px 0;box-shadow:0 4px 30px rgba(139,92,246,0.08)}
+        .navbar .container{display:flex;justify-content:space-between;align-items:center}
+        .logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .nav-links{display:flex;gap:28px;align-items:center}
+        .nav-links a{font-size:0.9rem;font-weight:500;color:var(--text-secondary);transition:var(--transition);position:relative}
+        .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--gradient);transition:var(--transition);border-radius:2px}
+        .nav-links a:hover{color:var(--primary)}.nav-links a:hover::after{width:100%}
+        .nav-cta{padding:10px 22px!important;background:var(--gradient);color:#fff!important;border-radius:50px;font-weight:600;box-shadow:0 4px 15px rgba(139,92,246,0.3)}
+        .nav-cta::after{display:none!important}.nav-cta:hover{transform:translateY(-2px)}
+        .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001}
+        .hamburger span{width:28px;height:2px;background:var(--text-main);transition:var(--transition);border-radius:2px}
+        .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+        .hamburger.active span:nth-child(2){opacity:0}
+        .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+        .hero{min-height:100vh;display:flex;align-items:center;position:relative;z-index:1;padding:100px 0 60px}
+        .hero .container{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+        .hero-content{animation:slideL 1s ease}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;background:var(--gradient-subtle);border:1px solid rgba(139,92,246,0.15);border-radius:50px;font-size:0.85rem;color:var(--primary-dark);margin-bottom:20px;font-weight:600}
+        .hero-badge .dot{width:8px;height:8px;background:#34D399;border-radius:50%;animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.5)}}
+        .hero h1{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:700;line-height:1.15;margin-bottom:10px}
+        .hero h1 .g-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero-subtitle{font-size:1.1rem;color:var(--primary);font-weight:600;margin-bottom:16px}
+        .hero-description{font-size:1rem;color:var(--text-secondary);margin-bottom:32px;max-width:480px;line-height:1.7}
+        .hero-buttons{display:flex;gap:14px;margin-bottom:36px;flex-wrap:wrap}
+        .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:50px;font-weight:600;font-size:0.95rem;transition:var(--transition);cursor:pointer;border:none;font-family:inherit}
+        .btn-primary{background:var(--gradient);color:#fff;box-shadow:0 4px 20px rgba(139,92,246,0.35)}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 35px rgba(236,72,153,0.35)}
+        .btn-outline{background:var(--bg-main);color:var(--text-main);border:2px solid var(--border)}
+        .btn-outline:hover{border-color:var(--primary);background:var(--gradient-subtle);color:var(--primary-dark);transform:translateY(-3px)}
+        .hero-social{display:flex;gap:14px}
+        .hero-social a{width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:var(--bg-main);border:1px solid var(--border);border-radius:50%;color:var(--text-secondary);transition:var(--transition);font-size:1.15rem;box-shadow:var(--shadow-sm)}
+        .hero-social a:hover{border-color:var(--primary);color:var(--primary);background:var(--gradient-subtle);transform:translateY(-3px);box-shadow:var(--shadow)}
+        .hero-image{display:flex;justify-content:center;animation:slideR 1s ease}
+        .hero-img-wrap{position:relative;width:400px;height:460px}
+        .hero-avatar{width:100%;height:100%;border-radius:30px;overflow:hidden;box-shadow:var(--shadow-lg);background:var(--gradient)}
+        .hero-avatar img{width:100%;height:100%;object-fit:cover}
+        .float-card{position:absolute;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;animation:floatC 4s infinite ease-in-out;box-shadow:var(--shadow)}
+        .float-card:nth-child(2){top:-15px;right:-25px}
+        .float-card:nth-child(3){bottom:50px;left:-35px;animation-delay:-2s}
+        .float-card:nth-child(4){bottom:-15px;right:-15px;animation-delay:-1s}
+        @keyframes floatC{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+        .float-card .fc-icon{font-size:1.3rem;margin-bottom:2px}
+        .float-card .fc-text{font-size:0.82rem;font-weight:700}
+        .float-card .fc-sub{font-size:0.72rem;color:var(--text-muted)}
+        @keyframes slideL{from{opacity:0;transform:translateX(-50px)}to{opacity:1;transform:translateX(0)}}
+        @keyframes slideR{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:translateX(0)}}
+
+        section{position:relative;z-index:1;padding:80px 0}
+        .sec-header{text-align:center;margin-bottom:48px}
+        .sec-tag{display:inline-block;padding:5px 16px;background:var(--gradient-subtle);border:1px solid rgba(139,92,246,0.15);border-radius:50px;font-size:0.75rem;color:var(--primary-dark);font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-bottom:14px}
+        .sec-title{font-family:'Playfair Display',serif;font-size:2.3rem;font-weight:700;margin-bottom:10px}
+        .sec-sub{font-size:1rem;color:var(--text-secondary);max-width:550px;margin:0 auto}
+
+        .about-mini{background:var(--bg-soft);padding:60px 0}
+        .about-mini .container{display:flex;align-items:center;gap:50px;justify-content:center}
+        .about-mini-img{width:120px;height:120px;border-radius:50%;overflow:hidden;box-shadow:var(--shadow);border:3px solid white;flex-shrink:0}
+        .about-mini-img img{width:100%;height:100%;object-fit:cover}
+        .about-mini-text{max-width:650px}
+        .about-mini-text h2{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:8px}
+        .about-mini-text p{color:var(--text-secondary);font-size:1rem;line-height:1.7}
+        .about-mini-stats{display:flex;gap:32px;margin-top:16px}
+        .about-mini-stats .s-num{font-size:1.5rem;font-weight:800;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .about-mini-stats .s-lab{font-size:0.78rem;color:var(--text-muted)}
+
+        .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px}
+        .skill-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:28px 16px;text-align:center;transition:var(--transition);box-shadow:var(--shadow-sm)}
+        .skill-card:hover{border-color:var(--primary);transform:translateY(-6px);box-shadow:var(--shadow-hover)}
+        .skill-card i{font-size:2.2rem;margin-bottom:12px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .skill-card h4{font-size:0.9rem;font-weight:700;margin-bottom:4px}
+        .skill-card span{font-size:0.75rem;color:var(--text-muted)}
+
+        #servicios{background:var(--bg-soft)}
+        .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+        .service-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:36px 28px;transition:var(--transition);box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+        .service-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--gradient);transform:scaleX(0);transition:var(--transition)}
+        .service-card:hover::before{transform:scaleX(1)}
+        .service-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover);border-color:var(--primary)}
+        .service-card i.s-ic{font-size:1.8rem;color:var(--primary);margin-bottom:16px;display:block}
+        .service-card h3{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:8px}
+        .service-card p{color:var(--text-secondary);font-size:0.9rem;line-height:1.6}
+
+        .portfolio-filter{display:flex;justify-content:center;gap:10px;margin-bottom:36px;flex-wrap:wrap}
+        .filter-btn{padding:8px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:50px;color:var(--text-secondary);font-family:inherit;font-weight:500;cursor:pointer;transition:var(--transition);font-size:0.85rem;box-shadow:var(--shadow-sm)}
+        .filter-btn:hover,.filter-btn.active{background:var(--gradient);color:#fff;border-color:transparent;box-shadow:0 4px 15px rgba(139,92,246,0.3)}
+
+        .portfolio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:20px}
+        .portfolio-item{position:relative;border-radius:var(--radius);overflow:hidden;cursor:pointer;box-shadow:var(--shadow-sm);transition:var(--transition);aspect-ratio:4/3}
+        .portfolio-item:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover)}
+        .portfolio-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease}
+        .portfolio-item:hover img{transform:scale(1.05)}
+        .portfolio-overlay{position:absolute;bottom:0;left:0;right:0;padding:24px 20px 20px;background:linear-gradient(transparent,rgba(30,27,75,0.85));color:#fff;transition:var(--transition);opacity:0;transform:translateY(10px)}
+        .portfolio-item:hover .portfolio-overlay{opacity:1;transform:translateY(0)}
+        .portfolio-overlay .p-brand{font-size:0.72rem;text-transform:uppercase;letter-spacing:2px;color:var(--accent-light);font-weight:600;margin-bottom:4px}
+        .portfolio-overlay .p-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700}
+        .portfolio-overlay .p-tag{display:inline-block;margin-top:6px;padding:3px 10px;background:rgba(255,255,255,0.2);border-radius:50px;font-size:0.7rem;backdrop-filter:blur(4px)}
+        .portfolio-expand{position:absolute;top:14px;right:14px;width:36px;height:36px;background:rgba(255,255,255,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:0.85rem;opacity:0;transition:var(--transition);backdrop-filter:blur(4px)}
+        .portfolio-item:hover .portfolio-expand{opacity:1}
+
+        .video-tabs{display:flex;justify-content:center;gap:10px;margin-bottom:36px;flex-wrap:wrap}
+        .video-tab{padding:10px 24px;border-radius:50px;font-weight:600;font-family:inherit;font-size:0.9rem;cursor:pointer;transition:var(--transition);border:2px solid var(--border);background:var(--bg-card);color:var(--text-secondary)}
+        .video-tab:hover,.video-tab.active{background:var(--gradient);color:#fff;border-color:transparent;box-shadow:0 4px 15px rgba(139,92,246,0.3)}
+        .video-tab-content{display:none}.video-tab-content.active{display:block}
+
+        .yt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:24px}
+        .yt-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:var(--transition);box-shadow:var(--shadow-sm)}
+        .yt-card:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:var(--primary)}
+        .yt-thumb{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000;cursor:pointer}
+        .yt-thumb img{width:100%;height:100%;object-fit:cover}
+        .yt-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.3rem;box-shadow:0 4px 20px rgba(255,0,0,0.4);transition:var(--transition)}
+        .yt-card:hover .yt-play{transform:translate(-50%,-50%) scale(1.1);background:#FF0000}
+        .yt-info{padding:16px 20px}
+        .yt-info h4{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:2px}
+        .yt-info span{font-size:0.8rem;color:var(--text-muted)}
+
+        .tiktok-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;justify-items:center}
+        .tiktok-embed{border:none!important;max-width:100%!important;min-width:0!important;width:100%!important;border-radius:var(--radius);overflow:hidden}
+
+        .reels-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+        .reel-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:var(--transition);box-shadow:var(--shadow-sm);cursor:pointer;display:block}
+        .reel-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-hover);border-color:var(--accent)}
+        .reel-thumb{position:relative;aspect-ratio:3/4;overflow:hidden}
+        .reel-thumb img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease}
+        .reel-card:hover .reel-thumb img{transform:scale(1.05)}
+        .reel-overlay{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(30,27,75,0.85));color:#fff}
+        .reel-overlay .r-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700}
+        .reel-overlay .r-sub{font-size:0.75rem;color:rgba(255,255,255,0.7);margin-top:2px}
+        .reel-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:55px;height:55px;background:rgba(255,255,255,0.25);border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;backdrop-filter:blur(6px);transition:var(--transition)}
+        .reel-card:hover .reel-play{background:var(--gradient);border-color:transparent;transform:translate(-50%,-50%) scale(1.1)}
+        .reel-badge{position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.5);color:#fff;padding:3px 10px;border-radius:50px;font-size:0.7rem;font-weight:700;backdrop-filter:blur(4px)}
+
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start}
+        .contact-info h2{font-family:'Playfair Display',serif;font-size:2rem;margin-bottom:14px}
+        .contact-info>p{color:var(--text-secondary);margin-bottom:32px;font-size:1rem}
+        .contact-details{display:flex;flex-direction:column;gap:18px;margin-bottom:32px}
+        .contact-item{display:flex;align-items:center;gap:16px}
+        .c-icon{width:46px;height:46px;background:var(--gradient-subtle);border:1px solid rgba(139,92,246,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1rem;flex-shrink:0}
+        .c-text h4{font-weight:600;font-size:0.9rem;margin-bottom:1px}.c-text span{color:var(--text-muted);font-size:0.85rem}
+        .contact-social{display:flex;gap:12px}
+        .contact-social a{width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:var(--bg-card);border:1px solid var(--border);border-radius:50%;color:var(--text-secondary);transition:var(--transition);box-shadow:var(--shadow-sm)}
+        .contact-social a:hover{border-color:var(--primary);color:var(--primary);background:var(--gradient-subtle);transform:translateY(-3px);box-shadow:var(--shadow)}
+        .contact-form{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:36px;box-shadow:var(--shadow)}
+        .form-group{margin-bottom:16px}
+        .form-group label{display:block;font-weight:600;margin-bottom:6px;font-size:0.85rem}
+        .form-group input,.form-group textarea{width:100%;padding:12px 16px;background:#F8F5FF;border:1px solid var(--border);border-radius:10px;color:var(--text-main);font-family:inherit;font-size:0.9rem;transition:var(--transition);outline:none}
+        .form-group input:focus,.form-group textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(139,92,246,0.1);background:#fff}
+        .form-group textarea{height:100px;resize:vertical}
+        .form-group input::placeholder,.form-group textarea::placeholder{color:var(--text-muted)}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .btn-submit{width:100%;padding:14px;background:var(--gradient);color:#fff;border:none;border-radius:10px;font-family:inherit;font-weight:700;font-size:0.95rem;cursor:pointer;transition:var(--transition);box-shadow:0 4px 20px rgba(139,92,246,0.3)}
+        .btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(236,72,153,0.35)}
+
+        .footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:32px 0;background:var(--bg-soft)}
+        .footer .container{display:flex;justify-content:space-between;align-items:center}
+        .footer-text{color:var(--text-muted);font-size:0.85rem}
+        .footer-text span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700}
+        .footer-links{display:flex;gap:20px}.footer-links a{color:var(--text-muted);font-size:0.8rem;transition:var(--transition)}
+        .footer-links a:hover{color:var(--primary)}
+
+        .lightbox{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);z-index:2000;display:none;align-items:center;justify-content:center;cursor:zoom-out}
+        .lightbox.active{display:flex}
+        .lightbox img{max-width:90%;max-height:90%;border-radius:var(--radius);box-shadow:0 0 60px rgba(139,92,246,0.3)}
+        .lightbox-close{position:absolute;top:24px;right:24px;width:48px;height:48px;background:rgba(255,255,255,0.15);border:none;border-radius:50%;color:#fff;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+        .lightbox-close:hover{background:var(--accent);transform:rotate(90deg)}
+        .lightbox-caption{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:#fff;font-family:'Playfair Display',serif;font-size:1.1rem;text-align:center}
+
+        .scroll-top{position:fixed;bottom:30px;right:30px;width:46px;height:46px;background:var(--gradient);border:none;border-radius:50%;color:#fff;font-size:1.1rem;cursor:pointer;z-index:999;opacity:0;transform:translateY(20px);transition:var(--transition);box-shadow:0 4px 20px rgba(139,92,246,0.35)}
+        .scroll-top.visible{opacity:1;transform:translateY(0)}.scroll-top:hover{transform:translateY(-5px)}
+        .reveal{opacity:0;transform:translateY(30px);transition:all 0.7s cubic-bezier(0.25,0.46,0.45,0.94)}
+        .reveal.active{opacity:1;transform:translateY(0)}
+
+        @media(max-width:968px){
+            .hero .container{grid-template-columns:1fr;text-align:center}
+            .hero h1{font-size:2.5rem}.hero-description{margin:0 auto 32px}
+            .hero-buttons{justify-content:center}.hero-social{justify-content:center}
+            .hero-img-wrap{width:300px;height:360px;margin:0 auto}
+            .about-mini .container{flex-direction:column;text-align:center}
+            .contact-grid{grid-template-columns:1fr}
+            .nav-links{position:fixed;top:0;right:-100%;width:280px;height:100vh;background:var(--bg-card);flex-direction:column;justify-content:center;gap:24px;transition:var(--transition);box-shadow:-4px 0 30px rgba(139,92,246,0.1)}
+            .nav-links.active{right:0}.hamburger{display:flex}
+        }
+        @media(max-width:600px){
+            .hero h1{font-size:2rem}.sec-title{font-size:1.8rem}
+            .portfolio-grid{grid-template-columns:1fr}
+            .yt-grid{grid-template-columns:1fr}
+            .reels-grid{grid-template-columns:repeat(2,1fr)}
+            .form-row{grid-template-columns:1fr}
+            .footer .container{flex-direction:column;gap:12px;text-align:center}
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-effects"><div class="bg-orb"></div><div class="bg-orb"></div></div>
+
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <a href="#" class="logo">Valeria Vargas</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#portafolio">Portafolio</a></li>
+            <li><a href="#video">Video & Reels</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#contacto" class="nav-cta">Contáctame</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+</nav>
+
+<section class="hero" id="inicio">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge"><span class="dot"></span> Disponible para proyectos</div>
+            <h1>Hola, soy<br><span class="g-text">Valeria Vargas</span></h1>
+            <p class="hero-subtitle"><i class="fas fa-graduation-cap"></i>&nbsp; Lic. en Ciencias de la Comunicación</p>
+            <p class="hero-description">Convierto ideas en contenido creativo, estratégico y visualmente atractivo que conecta marcas con su audiencia.</p>
+            <div class="hero-buttons">
+                <a href="#portafolio" class="btn btn-primary"><i class="fas fa-images"></i> Ver Trabajo</a>
+                <a href="#contacto" class="btn btn-outline"><i class="fas fa-paper-plane"></i> Contáctame</a>
+            </div>
+            <div class="hero-social">
+                <a href="https://www.instagram.com/vaaleriavargas/" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/valeria-vargas-872853249/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="mailto:valep8467@gmail.com"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="hero-img-wrap">
+                <!-- REEMPLAZA CON TU FOTO -->
+                <div class="hero-avatar"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&h=700&fit=crop&q=80" alt="Valeria Vargas"></div>
+                <div class="float-card"><div class="fc-icon">📱</div><div class="fc-text">Content Creator</div><div class="fc-sub">Redes Sociales</div></div>
+                <div class="float-card"><div class="fc-icon">🎨</div><div class="fc-text">Diseño Gráfico</div><div class="fc-sub">Branding</div></div>
+                <div class="float-card"><div class="fc-icon">🏠</div><div class="fc-text">Marketing Inm.</div><div class="fc-sub">Especialidad</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about-mini">
+    <div class="container">
+        <div class="about-mini-img">
+            <!-- REEMPLAZA CON TU FOTO -->
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&q=80" alt="Valeria">
+        </div>
+        <div class="about-mini-text">
+            <h2>10+ años creando conexiones entre marcas y audiencias</h2>
+            <p>Lic. en Ciencias de la Comunicación especializada en contenido digital, diseño gráfico, marketing inmobiliario y gestión de redes sociales en Morelia, Michoacán.</p>
+            <div class="about-mini-stats">
+                <div><div class="s-num">10+</div><div class="s-lab">Años exp.</div></div>
+                <div><div class="s-num">50+</div><div class="s-lab">Proyectos</div></div>
+                <div><div class="s-num">20+</div><div class="s-lab">Marcas</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="portafolio">
+    <div class="container">
+        <div class="sec-header reveal">
+            <div class="sec-tag">Portafolio</div>
+            <h2 class="sec-title">Diseño Gráfico</h2>
+            <p class="sec-sub">Piezas visuales para marcas inmobiliarias, construcción y finanzas.</p>
+        </div>
+        <div class="portfolio-filter reveal">
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="inmobiliario">Inmobiliario</button>
+            <button class="filter-btn" data-filter="construccion">Construcción</button>
+            <button class="filter-btn" data-filter="financiero">Financiero</button>
+            <button class="filter-btn" data-filter="evento">Eventos</button>
+        </div>
+        <div class="portfolio-grid reveal">
+
+            <div class="portfolio-item" data-category="construccion" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&h=600&fit=crop&q=80" alt="DIINCO Día del Arquitecto">
+                <div class="portfolio-expand"><i class="fas fa-expand"></i></div>
+                <div class="portfolio-overlay">
+                    <div class="p-brand">DIINCO</div>
+                    <div class="p-title">Día del Arquitecto</div>
+                    <span class="p-tag">Construcción</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="inmobiliario" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop&q=80" alt="Haz tus sueños realidad">
+                <div class="portfolio-expand"><i class="fas fa-expand"></i></div>
+                <div class="portfolio-overlay">
+                    <div class="p-brand">Inversiones Inmobiliarias</div>
+                    <div class="p-title">¡Haz tus sueños realidad!</div>
+                    <span class="p-tag">Inmobiliario</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="inmobiliario" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop&q=80" alt="Segura Casa Nueva">
+                <div class="portfolio-expand"><i class="fas fa-expand"></i></div>
+                <div class="portfolio-overlay">
+                    <div class="p-brand">Segura</div>
+                    <div class="p-title">¡Aún estás a tiempo! Casa Nueva</div>
+                    <span class="p-tag">Inmobiliario</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="inmobiliario" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop&q=80" alt="Torres Tzintzuntzan">
+                <div class="portfolio-expand"><i class="fas fa-expand"></i></div>
+                <div class="portfolio-overlay">
+                    <div class="p-brand">Torres Tzintzuntzan</div>
+                    <div class="p-title">Último Depa — Entrega Inmediata</div>
+                    <span class="p-tag">Inmobiliario</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="financiero" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&h=600&fit=crop&q=80" alt="CREDNOVA">
+                <div class="portfolio-expand"><i class="fas fa-expand"></i></div>
+                <div class="portfolio-overlay">
+                    <div class="p-brand">CREDNOVA</div>
+                    <div class="p-title">Parecen iguales, pero no lo son</div>
+                    <span class="p-tag">Financiero</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="inmobiliario" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&h=600&fit=crop&q=80" alt="Capellana">
+                <div class="portfolio-expand"><i class="fas fa-expand"></i></div>
+                <div class="portfolio-overlay">
+                    <div class="p-brand">Capellana Residencial Flex</div>
+                    <div class="p-title">Tu nuevo hogar rodeado de exclusividad</div>
+                    <span class="p-tag">Inmobiliario</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="evento" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop&q=80" alt="DIINCO Webinar">
+                <div class="portfolio-expand"><i class="fas fa-expand"></i></div>
+                <div class="portfolio-overlay">
+                    <div class="p-brand">DIINCO</div>
+                    <div class="p-title">Webinar: 3 Herramientas</div>
+                    <span class="p-tag">Evento</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="evento" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop&q=80" alt="Riviera Maya">
+                <div class="portfolio-expand"><i class="fas fa-expand"></i></div>
+                <div class="portfolio-overlay">
+                    <div class="p-brand">Inversiones Inmobiliarias</div>
+                    <div class="p-title">Webinar: Riviera Maya</div>
+                    <span class="p-tag">Evento</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="construccion" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop&q=80" alt="Torre Ámbar">
+                <div class="portfolio-expand"><i class="fas fa-expand"></i></div>
+                <div class="portfolio-overlay">
+                    <div class="p-brand">Torre Ámbar</div>
+                    <div class="p-title">Render Torre Ámbar</div>
+                    <span class="p-tag">Construcción</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="inmobiliario" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop&q=80" alt="Excelencia y Confianza">
+                <div class="portfolio-expand"><i class="fas fa-expand"></i></div>
+                <div class="portfolio-overlay">
+                    <div class="p-brand">Inversiones Inmobiliarias</div>
+                    <div class="p-title">Excelencia y Confianza</div>
+                    <span class="p-tag">Inmobiliario</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="construccion" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop&q=80" alt="DIINCO Platform">
+                <div class="portfolio-expand"><i class="fas fa-expand"></i></div>
+                <div class="portfolio-overlay">
+                    <div class="p-brand">DIINCO</div>
+                    <div class="p-title">Know the Web Platform</div>
+                    <span class="p-tag">Construcción</span>
+                </div>
+            </div>
+
+            <div class="portfolio-item" data-category="evento" onclick="openLightbox(this)">
+                <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&h=600&fit=crop&q=80" alt="DIINCO Herramientas">
+                <div class="portfolio-expand"><i class="fas fa-expand"></i></div>
+                <div class="portfolio-overlay">
+                    <div class="p-brand">DIINCO</div>
+                    <div class="p-title">Webinar: Herramientas Pro</div>
+                    <span class="p-tag">Evento</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="video" style="background:var(--bg-soft)">
+    <div class="container">
+        <div class="sec-header reveal">
+            <div class="sec-tag">Video & Reels</div>
+            <h2 class="sec-title">Producción Audiovisual</h2>
+        </div>
+
+        <div class="video-tabs reveal">
+            <button class="video-tab active" data-tab="yt"><i class="fab fa-youtube"></i> YouTube</button>
+            <button class="video-tab" data-tab="tt"><i class="fab fa-tiktok"></i> TikTok</button>
+            <button class="video-tab" data-tab="reels"><i class="fas fa-film"></i> Reels</button>
+        </div>
+
+        <div class="video-tab-content active" id="tab-yt">
+            <div class="yt-grid">
+                <div class="yt-card"><a href="https://www.youtube.com/watch?v=b0YWpl7C7dA" target="_blank">
+                    <div class="yt-thumb"><img src="https://img.youtube.com/vi/b0YWpl7C7dA/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/b0YWpl7C7dA/hqdefault.jpg'" alt="Video 1">
+                    <div class="yt-play"><i class="fab fa-youtube"></i></div></div>
+                    <div class="yt-info"><h4>Video Project 1</h4><span>▶ YouTube</span></div></a></div>
+                <div class="yt-card"><a href="https://www.youtube.com/watch?v=iPxEICGzaCQ" target="_blank">
+                    <div class="yt-thumb"><img src="https://img.youtube.com/vi/iPxEICGzaCQ/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/iPxEICGzaCQ/hqdefault.jpg'" alt="Video 2">
+                    <div class="yt-play"><i class="fab fa-youtube"></i></div></div>
+                    <div class="yt-info"><h4>Video Project 2</h4><span>▶ YouTube</span></div></a></div>
+                <div class="yt-card"><a href="https://www.youtube.com/watch?v=YqzuG-yRqII" target="_blank">
+                    <div class="yt-thumb"><img src="https://img.youtube.com/vi/YqzuG-yRqII/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/YqzuG-yRqII/hqdefault.jpg'" alt="Video 3">
+                    <div class="yt-play"><i class="fab fa-youtube"></i></div></div>
+                    <div class="yt-info"><h4>Video Project 3</h4><span>▶ YouTube</span></div></a></div>
+                <div class="yt-card"><a href="https://www.youtube.com/watch?v=WRWwoG3Y5Qw" target="_blank">
+                    <div class="yt-thumb"><img src="https://img.youtube.com/vi/WRWwoG3Y5Qw/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/WRWwoG3Y5Qw/hqdefault.jpg'" alt="Video 4">
+                    <div class="yt-play"><i class="fab fa-youtube"></i></div></div>
+                    <div class="yt-info"><h4>Video Project 4</h4><span>▶ YouTube</span></div></a></div>
+                <div class="yt-card"><a href="https://www.youtube.com/watch?v=88nZpy1d_5o" target="_blank">
+                    <div class="yt-thumb"><img src="https://img.youtube.com/vi/88nZpy1d_5o/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/88nZpy1d_5o/hqdefault.jpg'" alt="Video 5">
+                    <div class="yt-play"><i class="fab fa-youtube"></i></div></div>
+                    <div class="yt-info"><h4>Video Project 5</h4><span>▶ YouTube</span></div></a></div>
+                <div class="yt-card"><a href="https://www.youtube.com/watch?v=7PV4MBYff_g" target="_blank">
+                    <div class="yt-thumb"><img src="https://img.youtube.com/vi/7PV4MBYff_g/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/7PV4MBYff_g/hqdefault.jpg'" alt="Video 6">
+                    <div class="yt-play"><i class="fab fa-youtube"></i></div></div>
+                    <div class="yt-info"><h4>Video Project 6</h4><span>▶ YouTube</span></div></a></div>
+                <div class="yt-card"><a href="https://www.youtube.com/watch?v=-2picxyI09o" target="_blank">
+                    <div class="yt-thumb"><img src="https://img.youtube.com/vi/-2picxyI09o/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/-2picxyI09o/hqdefault.jpg'" alt="Video 7">
+                    <div class="yt-play"><i class="fab fa-youtube"></i></div></div>
+                    <div class="yt-info"><h4>Video Project 7</h4><span>▶ YouTube</span></div></a></div>
+            </div>
+        </div>
+
+        <div class="video-tab-content" id="tab-tt">
+            <div class="tiktok-grid">
+                <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@seguragrupoinmobiliario/video/7629391825014476053" data-video-id="7629391825014476053" style="max-width:280px;min-width:280px;">
+                    <section><a href="https://www.tiktok.com/@seguragrupoinmobiliario/video/7629391825014476053">Ver en TikTok</a></section>
+                </blockquote>
+                <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@seguragrupoinmobiliario/video/7613500190791699713" data-video-id="7613500190791699713" style="max-width:280px;min-width:280px;">
+                    <section><a href="https://www.tiktok.com/@seguragrupoinmobiliario/video/7613500190791699713">Ver en TikTok</a></section>
+                </blockquote>
+                <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@seguragrupoinmobiliario/video/7613162649701928193" data-video-id="7613162649701928193" style="max-width:280px;min-width:280px;">
+                    <section><a href="https://www.tiktok.com/@seguragrupoinmobiliario/video/7613162649701928193">Ver en TikTok</a></section>
+                </blockquote>
+                <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@seguragrupoinmobiliario/video/7512192204828445958" data-video-id="7512192204828445958" style="max-width:280px;min-width:280px;">
+                    <section><a href="https://www.tiktok.com/@seguragrupoinmobiliario/video/7512192204828445958">Ver en TikTok</a></section>
+                </blockquote>
+                <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@seguragrupoinmobiliario/video/7509938501647928632" data-video-id="7509938501647928632" style="max-width:280px;min-width:280px;">
+                    <section><a href="https://www.tiktok.com/@seguragrupoinmobiliario/video/7509938501647928632">Ver en TikTok</a></section>
+                </blockquote>
+                <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@seguragrupoinmobiliario/video/7498849851061423415" data-video-id="7498849851061423415" style="max-width:280px;min-width:280px;">
+                    <section><a href="https://www.tiktok.com/@seguragrupoinmobiliario/video/7498849851061423415">Ver en TikTok</a></section>
+                </blockquote>
+            </div>
+        </div>
+
+        <div class="video-tab-content" id="tab-reels">
+            <div class="reels-grid">
+                <a href="#" class="reel-card">
+                    <div class="reel-thumb">
+                        <img src="https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=500&h=700&fit=crop&q=80" alt="Reel Gastronómico">
+                        <div class="reel-play"><i class="fas fa-play"></i></div>
+                        <div class="reel-badge">REEL</div>
+                        <div class="reel-overlay"><div class="r-title">Mariscos & Coctelería</div><div class="r-sub">"Perdón si mi lenguaje de amor arruina tu dieta"</div></div>
+                    </div>
+                </a>
+                <a href="#" class="reel-card">
+                    <div class="reel-thumb">
+                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=500&h=700&fit=crop&q=80" alt="Reel Salud">
+                        <div class="reel-play"><i class="fas fa-play"></i></div>
+                        <div class="reel-badge">REEL</div>
+                        <div class="reel-overlay"><div class="r-title">¿Mito o Realidad?</div><div class="r-sub">Cumlaude Lab — Gyn Lab</div></div>
+                    </div>
+                </a>
+                <a href="#" class="reel-card">
+                    <div class="reel-thumb">
+                        <img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=500&h=700&fit=crop&q=80" alt="Reel Escarchar">
+                        <div class="reel-play"><i class="fas fa-play"></i></div>
+                        <div class="reel-badge">REEL</div>
+                        <div class="reel-overlay"><div class="r-title">El Arte de Escarchar</div><div class="r-sub">Preparación de Bebidas</div></div>
+                    </div>
+                </a>
+                <a href="#" class="reel-card">
+                    <div class="reel-thumb">
+                        <img src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=500&h=700&fit=crop&q=80" alt="Reel Cocina ASMR">
+                        <div class="reel-play"><i class="fas fa-play"></i></div>
+                        <div class="reel-badge">REEL</div>
+                        <div class="reel-overlay"><div class="r-title">Sonidos de nuestra COCINA</div><div class="r-sub">ASMR — Cocina Japonesa</div></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="servicios">
+    <div class="container">
+        <div class="sec-header reveal">
+            <div class="sec-tag">Habilidades & Servicios</div>
+            <h2 class="sec-title">¿Qué hago?</h2>
+        </div>
+        <div class="skills-grid reveal" style="margin-bottom:48px">
+            <div class="skill-card"><i class="fas fa-film"></i><h4>Edición de Video</h4><span>Avanzado</span></div>
+            <div class="skill-card"><i class="fas fa-camera"></i><h4>Fotografía</h4><span>Avanzado</span></div>
+            <div class="skill-card"><i class="fas fa-robot"></i><h4>Contenido IA</h4><span>Avanzado</span></div>
+            <div class="skill-card"><i class="fas fa-palette"></i><h4>Diseño Gráfico</h4><span>Avanzado</span></div>
+            <div class="skill-card"><i class="fas fa-laptop-code"></i><h4>Diseño Web</h4><span>Intermedio</span></div>
+            <div class="skill-card"><i class="fas fa-chart-line"></i><h4>Marketing Digital</h4><span>Avanzado</span></div>
+            <div class="skill-card"><i class="fas fa-home"></i><h4>Marketing Inm.</h4><span>Avanzado</span></div>
+            <div class="skill-card"><i class="fas fa-users"></i><h4>Community Manager</h4><span>Avanzado</span></div>
+        </div>
+        <div class="services-grid reveal">
+            <div class="service-card"><i class="fas fa-photo-video s-ic"></i><h3>Creación de Contenido</h3><p>Reels, stories, videos, fotos y piezas gráficas para redes sociales.</p></div>
+            <div class="service-card"><i class="fas fa-paint-brush s-ic"></i><h3>Diseño Gráfico</h3><p>Posts, flyers, banners y material publicitario profesional.</p></div>
+            <div class="service-card"><i class="fas fa-gem s-ic"></i><h3>Branding</h3><p>Identidad de marca, logotipos, guidelines y presencia visual.</p></div>
+            <div class="service-card"><i class="fas fa-home s-ic"></i><h3>Marketing Inmobiliario</h3><p>Estrategias para el sector inmobiliario y generación de leads.</p></div>
+        </div>
+    </div>
+</section>
+
+<section id="contacto">
+    <div class="container">
+        <div class="contact-grid reveal">
+            <div class="contact-info">
+                <div class="sec-tag">Contacto</div>
+                <h2>¡Hablemos!</h2>
+                <p>¿Tienes un proyecto? Conectemos.</p>
+                <div class="contact-details">
+                    <div class="contact-item"><div class="c-icon"><i class="fas fa-envelope"></i></div><div class="c-text"><h4>Email</h4><span>valep8467@gmail.com</span></div></div>
+                    <div class="contact-item"><div class="c-icon"><i class="fas fa-phone"></i></div><div class="c-text"><h4>Teléfono</h4><span>443 136 7456</span></div></div>
+                    <div class="contact-item"><div class="c-icon"><i class="fas fa-map-marker-alt"></i></div><div class="c-text"><h4>Ubicación</h4><span>Morelia, Michoacán</span></div></div>
+                </div>
+                <div class="contact-social">
+                    <a href="https://www.instagram.com/vaaleriavargas/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/valeria-vargas-872853249/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="mailto:valep8467@gmail.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group"><label>Nombre</label><input type="text" placeholder="Tu nombre" required></div>
+                        <div class="form-group"><label>Email</label><input type="email" placeholder="tu@email.com" required></div>
+                    </div>
+                    <div class="form-group"><label>Mensaje</label><textarea placeholder="Cuéntame sobre tu proyecto..." required></textarea></div>
+                    <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i>&nbsp; Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-text">© 2025 <span>Valeria Vargas</span></div>
+        <div class="footer-links"><a href="#inicio">Inicio</a><a href="#portafolio">Portafolio</a><a href="#contacto">Contacto</a></div>
+    </div>
+</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+    <img id="lightbox-img" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<button class="scroll-top" id="scrollTop"><i class="fas fa-chevron-up"></i></button>
+
+<script async src="https://www.tiktok.com/embed.js"></script>
+<script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => { hamburger.classList.toggle('active'); navLinks.classList.toggle('active'); });
+    navLinks.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { hamburger.classList.remove('active'); navLinks.classList.remove('active'); }));
+    const els = document.querySelectorAll('.reveal');
+    const check = () => els.forEach(el => { if (el.getBoundingClientRect().top < innerHeight - 80) el.classList.add('active'); });
+    window.addEventListener('scroll', check); window.addEventListener('load', check);
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const f = btn.dataset.filter;
+            document.querySelectorAll('.portfolio-item').forEach(item => {
+                if (f === 'all' || item.dataset.category === f) { item.style.display = 'block'; setTimeout(() => { item.style.opacity = '1'; item.style.transform = 'translateY(0)'; }, 50); }
+                else { item.style.opacity = '0'; item.style.transform = 'translateY(20px)'; setTimeout(() => item.style.display = 'none', 300); }
+            });
+        });
+    });
+    document.querySelectorAll('.video-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.video-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.video-tab-content').forEach(c => c.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+        });
+    });
+    function openLightbox(el) {
+        const img = el.querySelector('img');
+        const title = el.querySelector('.p-title')?.textContent || '';
+        document.getElementById('lightbox-img').src = img.src;
+        document.getElementById('lightbox-img').alt = img.alt;
+        document.getElementById('lightbox-caption').textContent = title;
+        document.getElementById('lightbox').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        document.getElementById('lightbox').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+    const stBtn = document.getElementById('scrollTop');
+    window.addEventListener('scroll', () => stBtn.classList.toggle('visible', window.scrollY > 500));
+    stBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = this.querySelector('.btn-submit');
+        btn.innerHTML = '<i class="fas fa-check"></i>&nbsp; ¡Enviado!';
+        btn.style.background = 'linear-gradient(135deg,#34D399,#22D3EE)';
+        setTimeout(() => { btn.innerHTML = '<i class="fas fa-paper-plane"></i>&nbsp; Enviar'; btn.style.background = 'var(--gradient)'; this.reset(); }, 3000);
+    });
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', function(e) {
+            e.preventDefault();
+            const t = document.querySelector(this.getAttribute('href'));
+            if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+</script>
+</body>
+</html>
